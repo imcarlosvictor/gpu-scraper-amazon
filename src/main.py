@@ -43,10 +43,10 @@ class GPUData():
     def display_gpu_prices(self):
         # Data points
         brands = self.orig_data['Brand']
-        prices = [float(price) for price in self.orig_data['Current Price']]
-        prices.sort()
+        cur_prices, orig_price = cd.clean_prices(self.orig_data)
+        cur_prices.sort()
         # Plot
-        fig = px.scatter(x=brands, y=prices)
+        fig = px.scatter(x=brands, y=cur_prices)
         fig.update_yaxes(title='Price')
         fig.update_xaxes(title='Brand')
         st.plotly_chart(fig)

@@ -18,4 +18,7 @@ def clean_prices(data):
     data['Shipping'] = data['Shipping'].str.replace('Shipping', '')
     data['Shipping'] = data['Current Price'].str.replace('$','').str.replace(',','')
 
-    return data
+    cur_prices = [float(price) for price in data['Current Price']]
+    orig_prices = [float(price) for price in data['Original Price']]
+    
+    return cur_prices, orig_prices
