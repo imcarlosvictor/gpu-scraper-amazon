@@ -5,57 +5,32 @@ import seaborn as sns
 import plotly.graph_objects as go
 import plotly.express as px
 
-import clean_data
+import clean_data as cd
 
+# CSV File(s)
+gpu_csv_path = "./data/newegg_data.csv"
 
-class CleanData():
-    pass
-
-
-class GpuData():
-    def __init__(self, data):
-        self.data = data
-    
-    def display_data_frame(self):
-        """Displays the scraped data in tabular form."""
-
-        st.dataframe(self.data)
-
-    def display_gpu_brands(self):
-        """Displays the total count for each brand in a bar chart."""
-
-        # Data points
-        brands = self.data['Brand'].unique()
-        brand_count = self.data['Brand'].value_counts()
-        # Display as bar graph
-        fig, ax = plt.subplots()
-        ax.bar(brands, brand_count)
-        st.pyplot(fig)
-
-
-    def display_gpu_prices(self):
-        """Displays all prices for each GPU in the file."""
-
-        # Data points
-        gpu_brands = self.data['Brand']
-        gpu_prices = [float(price) for price in self.data['Current Price']]
-        # Display as stripplot graph
-        fig, ax = plt.subplots(figsize=(12,10), dpi=90)
-        sns.stripplot(gpu_brands, gpu_prices, jitter=0.25, size=8, ax=ax, linewidth=.5)
-        st.pyplot(fig)
+# Load data
+gpu_data = pd.read_csv(gpu_csv_path)
 
 
 class GPUData():
-    def __init__(self, data):
-        self.data = data
+    def __init__(self):
+        self.orig_data = pd.read_csv(gpu_csv_path) 
+
+        self.display_data_frame()
+        self.display_gpu_brands()
+        self.display_gpu_prices()
 
     def display_data_frame(self):
-        st.dataframe(self.data)
+        df = cd.clean_data(self.orig_data)
+        st.dataframe(df)
     
     def display_gpu_brands(self):
         # Data points
-        brands = self.data['Brand'].unique()
-        brand_count = self.data['Brand'].value_counts()
+        brands = self.orig_data['Brand'].unique()
+        brand_count = self.orig_data['Brand'].value_counts()
+        # Plot
         fig = go.Figure(data=[go.Bar(
             x=brands,
             y=brand_count,
@@ -64,11 +39,13 @@ class GPUData():
         )])
         st.plotly_chart(fig)
 
+    # TODO: Create a function to clean the price data (to float)
     def display_gpu_prices(self):
         # Data points
-        brands = self.data['Brand']
-        prices = [float(price) for price in self.data['Current Price']]
+        brands = self.orig_data['Brand']
+        prices = [float(price) for price in self.orig_data['Current Price']]
         prices.sort()
+        # Plot
         fig = px.scatter(x=brands, y=prices)
         fig.update_yaxes(title='Price')
         fig.update_xaxes(title='Brand')
@@ -80,10 +57,4 @@ if __name__ == '__main__':
     st.set_page_config(page_title='GPU Prices')
     st.header('GPU Prices')
 
-    # Import data
-    data = clean_data.clean_gpu_data()
-
-    gpu = GPUData(data)
-    gpu.display_data_frame()
-    gpu.display_gpu_brands()
-    gpu.display_gpu_prices()
+    gpu = GPUData()

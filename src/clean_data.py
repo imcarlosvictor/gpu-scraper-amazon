@@ -1,18 +1,21 @@
 import pandas as pd
 
 
-def clean_gpu_data():
-    # Load data
-    csv_file = './data/newegg_data.csv'
-    data = pd.read_csv(csv_file)
+def clean_data(data):
     # Remove "NaN" elements
     data['Original Price'] = data['Original Price'].fillna(' ')
     # Remove unnecessary wording
+    data['Product Name'].str.split(' ', 1)[1]
     data['Shipping'] = data['Shipping'].str.replace('Shipping', '')
-    # Remove dollar sign
-    data['Current Price'] = data['Current Price'].str.replace('$','').str.replace(',','')
 
-    print(data['Current Price'])
+    print(data['Product Name'])
     return data
 
-clean_gpu_data()
+
+def clean_prices(data):
+    data['Current Price'] = data['Current Price'].str.replace('$','').str.replace(',','')
+    data['Original Price'] = data['Current Price'].str.replace('$','').str.replace(',','')
+    data['Shipping'] = data['Shipping'].str.replace('Shipping', '')
+    data['Shipping'] = data['Current Price'].str.replace('$','').str.replace(',','')
+
+    return data
