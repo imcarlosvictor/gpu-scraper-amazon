@@ -4,7 +4,15 @@ import scrapy
 class AmazonSpider(scrapy.Spider):
     name = 'amazon'
     allowed_domains = ['www.amazon.ca']
-    start_urls = ['https://www.amazon.ca/s?k=graphics+card+3080&crid=TI694OTJJXR6&sprefix=graphics+card+3080%2Caps%2C111&ref=nb_sb_noss']
+    start_urls = [
+        'https://www.amazon.ca/s?k=graphics+card+3060&crid=1539D0IUMM0IU&sprefix=graphics+card+3060+%2Caps%2C96&ref=nb_sb_noss',
+        'https://www.amazon.ca/s?k=graphics+card+3060+ti&crid=1Z8GJA5BY8DFW&sprefix=graphics+card+3060+ti%2Caps%2C111&ref=nb_sb_noss',
+        'https://www.amazon.ca/s?k=graphics+card+3070&crid=16U73G3JHP29I&sprefix=graphics+card+3070+%2Caps%2C92&ref=nb_sb_noss',
+        'https://www.amazon.ca/s?k=graphics+card+3070+ti&crid=2DCFES58X63NJ&sprefix=graphics+card+3070+ti%2Caps%2C106&ref=nb_sb_noss',
+        'https://www.amazon.ca/s?k=graphics+card+3080&crid=TI694OTJJXR6&sprefix=graphics+card+3080%2Caps%2C111&ref=nb_sb_noss',
+        'https://www.amazon.ca/s?k=graphics+card+3080+ti&crid=R3RL2VJM6O9B&sprefix=graphics+card+3080+ti%2Caps%2C160&ref=nb_sb_noss',
+
+        ]
 
 
     def parse(self, response):

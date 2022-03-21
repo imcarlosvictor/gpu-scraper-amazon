@@ -8,7 +8,7 @@ import plotly.express as px
 import clean_data as cd
 
 # CSV File(s)
-gpu_csv_path = "./data/newegg_data.csv"
+gpu_csv_path = "./gpu/data/gpu.csv"
 
 # Load data
 gpu_data = pd.read_csv(gpu_csv_path)
