@@ -28,11 +28,10 @@ class AmazonSpider(scrapy.Spider):
             review = product.css('div.a-row span::attr(aria-label)').get()
             link = 'https://www.amazon.ca' + product.css('h2.a-size-mini a.a-link-normal::attr(href)').get()
             # Get Brand
-            words = name.split(' ')
-            first_word = words[0].upper() # Grab the first word in the string
-            brand = first_word if first_word in ['MSI', 'ZOTAC', 'ASUS', 'EVGA', 'GIGABYTE', 'NVIDIA'] else ' '
+            words = name.upper().split(' ')
+            brand = [word for word in words if word in ['MSI','ZOTAC','ASUS','EVGA','GIGABYTE']]
             # Get GPU Series
-            series = [words[i] + ' ' + words[i+1] if words[i+1].capitalize() == 'Ti' else words[i] for i in range(len(words)) if words[i] in ['3060','3070','3080'] ]
+            series = [words[i] + ' ' + words[i+1] if words[i+1] == 'TI' else words[i] for i in range(len(words)) if words[i] in ['3060','3070','3080'] ]
             series = ' '.join(set(series))
 
             item = {

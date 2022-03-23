@@ -4,8 +4,10 @@ import pandas as pd
 def clean_data(data):
     # Remove items with no current price
     data = data[data['Current Price'].notna()]
+    # Brands
+    data['Brand'] = data['Brand'].fillna('')
     # GPU Series
-    data['GPU Series'] = data['GPU Series'].fillna('')
+    data = data[data['GPU Series'].notna()]
     # Original Price
     data['Original Price'] = data['Original Price'].fillna('')
     # Shipping
