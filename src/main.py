@@ -8,7 +8,7 @@ import plotly.express as px
 import clean_data as cd
 
 # CSV File(s)
-gpu_csv_path = "./gpu/data/gpu.csv"
+gpu_csv_path = "./gpu/data/data.csv"
 
 # Load data
 gpu_data = pd.read_csv(gpu_csv_path)
@@ -39,14 +39,14 @@ class GPUData():
         )])
         st.plotly_chart(fig)
 
-    # TODO: Create a function to clean the price data (to float)
     def display_gpu_prices(self):
         # Data points
         brands = self.orig_data['Brand']
+        series = self.orig_data['GPU Series']
         cur_prices, orig_price = cd.clean_prices(self.orig_data)
         cur_prices.sort()
         # Plot
-        fig = px.scatter(x=brands, y=cur_prices)
+        fig = px.scatter(x=brands, y=cur_prices, color=series)
         fig.update_yaxes(title='Price')
         fig.update_xaxes(title='Brand')
         st.plotly_chart(fig)

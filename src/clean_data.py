@@ -2,11 +2,17 @@ import pandas as pd
 
 
 def clean_data(data):
-    # Remove "NaN" elements
-    data['Original Price'] = data['Original Price'].fillna(' ')
-    # Remove unnecessary wording
-    data['Product Name'].str.split(' ', 1)[1]
-    data['Shipping'] = data['Shipping'].str.replace('Shipping', '')
+    # Remove items with no current price
+    data = data[data['Current Price'].notna()]
+    # GPU Series
+    data['GPU Series'] = data['GPU Series'].fillna('')
+    # Original Price
+    data['Original Price'] = data['Original Price'].fillna('')
+    # Shipping
+    del data['Shipping']
+    # Reviews
+    data = data[data['Reviews'].str.contains('stars')]
+
 
     print(data['Product Name'])
     return data
