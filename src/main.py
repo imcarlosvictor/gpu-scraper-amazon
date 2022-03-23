@@ -40,9 +40,10 @@ class GPUData():
         st.plotly_chart(fig)
 
     def display_gpu_prices(self):
+        df = cd.clean_data(self.orig_data)
         # Data points
-        series = self.orig_data['GPU Series']
-        cur_prices, orig_price = cd.clean_prices(self.orig_data)
+        series = df['GPU Series']
+        cur_prices = cd.clean_prices(df)
         cur_prices.sort()
         # Plot
         fig = px.scatter(x=series, y=cur_prices, color=series)
