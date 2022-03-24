@@ -46,17 +46,24 @@ class GPUData():
     def display_gpu_prices(self):
         # Data points
         series = self.dataframe['GPU Series']
-        # brands = df['Brand']
         prices, rating = cd.clean_prices(self.dataframe)
-        prices.sort()
+        # prices.sort()
+        # for i in range(len(s))
         # Plot
         fig = px.scatter(
             x=rating,
             y=prices,
             color=series,
+            custom_data=[self.dataframe.index],
+            width=800,
+            height=800,
+            title='GPU Prices vs Ratings'
             )
         fig.update_xaxes(title='Ratings')
         fig.update_yaxes(title='Price')
+        fig.update_traces(
+            hovertemplate='Price: $%{y:.2f}'+'<br>Rating: %{x:.2f}' + '<br>Index: %{customdata[0]}'
+        )
         st.plotly_chart(fig)
 
 
