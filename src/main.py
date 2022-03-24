@@ -17,14 +17,18 @@ gpu_data = pd.read_csv(gpu_csv_path)
 class GPUData():
     def __init__(self):
         self.orig_data = pd.read_csv(gpu_csv_path) 
+        self.dataframe = self.clean_data()
 
         self.display_data_frame()
         self.display_gpu_brands()
         self.display_gpu_prices()
 
+    def clean_data(self):
+        return cd.clean_data(self.orig_data)
+
     def display_data_frame(self):
-        df = cd.clean_data(self.orig_data)
-        st.dataframe(df)
+        # df = self.clean_data()
+        st.dataframe(self.dataframe)
     
     def display_gpu_brands(self):
         # Data points
@@ -40,15 +44,19 @@ class GPUData():
         st.plotly_chart(fig)
 
     def display_gpu_prices(self):
-        df = cd.clean_data(self.orig_data)
         # Data points
-        series = df['GPU Series']
-        cur_prices = cd.clean_prices(df)
-        cur_prices.sort()
+        series = self.dataframe['GPU Series']
+        # brands = df['Brand']
+        prices, rating = cd.clean_prices(self.dataframe)
+        prices.sort()
         # Plot
-        fig = px.scatter(x=series, y=cur_prices, color=series)
-        fig.update_xaxes(title='GPU Series')
-        fig.update_yaxes(title='Current Price')
+        fig = px.scatter(
+            x=rating,
+            y=prices,
+            color=series,
+            )
+        fig.update_xaxes(title='Ratings')
+        fig.update_yaxes(title='Price')
         st.plotly_chart(fig)
 
 
