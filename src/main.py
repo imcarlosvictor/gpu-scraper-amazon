@@ -8,7 +8,7 @@ import plotly.express as px
 import clean_data as cd
 
 # CSV File(s)
-gpu_csv_path = "./gpu/data/gpugpu.csv"
+gpu_csv_path = "./gpu/data/gpu_data.csv"
 
 # Load data
 gpu_data = pd.read_csv(gpu_csv_path)
@@ -32,15 +32,19 @@ class GPUData():
     
     def display_gpu_brands(self):
         # Data points
-        brands = self.orig_data['Brand'].unique()
-        brand_count = self.orig_data['Brand'].value_counts()
+        brands = self.dataframe['Brand'].unique()
+        brand_count = self.dataframe['Brand'].value_counts()
         # Plot
-        fig = go.Figure(data=[go.Bar(
+        fig = px.bar(
             x=brands,
             y=brand_count,
             text=brand_count,
-            textposition='auto',
-        )])
+            title="Brand Distribution",
+            width=800,
+            height=800,
+        )
+        fig.update_xaxes(title='Brands')
+        fig.update_yaxes(title='Total # of Products')
         st.plotly_chart(fig)
 
     def display_gpu_prices(self):
@@ -54,7 +58,7 @@ class GPUData():
             x=rating,
             y=prices,
             color=series,
-            custom_data=[self.dataframe.index],
+            custom_data=[self.dataframe['Brand'], self.dataframe.index],
             width=800,
             height=800,
             title='GPU Prices vs Ratings'
@@ -62,7 +66,7 @@ class GPUData():
         fig.update_xaxes(title='Ratings')
         fig.update_yaxes(title='Price')
         fig.update_traces(
-            hovertemplate='Price: $%{y:.2f}'+'<br>Rating: %{x:.2f}' + '<br>Index: %{customdata[0]}'
+            hovertemplate='Price: $%{y:.2f}'+'<br>Rating: %{x:.2f}' + '<br>Brand: %{customdata[0]}' + '<br>Index: %{customdata[1]}'
         )
         st.plotly_chart(fig)
 
