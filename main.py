@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 import clean_data as cd
 
-
 # CSV File(s)
 gpu_csv_path = "../gpu/data/gpu_data.csv"
 
